@@ -1,9 +1,31 @@
 import { Component } from 'react';
-import css from './App.module.css'
+import ImageGallery from 'components/ImageGallery';
+import SearchBar from 'components/SearchBar';
+import css from './App.module.css';
 
 class App extends Component {
+  state = {
+    showModal: false,
+    searchParam: null,
+  };
+  toggleModal = () => {
+    this.setState(prevState => {
+      return {
+        showModal: !prevState.showModal,
+      };
+    });
+  };
+  handleSubmit = search => {
+    this.setState({ searchParam: search });
+  };
   render() {
-    return <div></div>;
+    const { searchParam } = this.state;
+    return (
+      <div className={css.App}>
+        <SearchBar onSubmit={this.handleSubmit} />
+        <ImageGallery searchParam={searchParam} />
+      </div>
+    );
   }
 }
 
