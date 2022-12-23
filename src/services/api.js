@@ -1,10 +1,9 @@
-import axios from 'axios';
-
-export const fetchArticlesWithQuery = async searchQuery => {
-  const response = axios.get(`/search?query=${searchQuery}`);
-  return response.data.hits;
+export const fetchImage = (search, page = 1) => {
+  return fetch(
+    `https://pixabay.com/api/?q=${search}&page=${page}&key=31198912-785fc91d0a48dd5c6d0fb52b2&image_type=photo&orientation=horizontal&per_page=12`
+  );
 };
-
-export default {
-  fetchArticlesWithQuery,
+const API = {
+  fetchImage,
 };
+export default API;

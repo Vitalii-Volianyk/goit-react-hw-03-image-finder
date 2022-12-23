@@ -1,9 +1,14 @@
 import css from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = () => {
+const ImageGalleryItem = ({ item: { tags, webformatURL }, id, onModal }) => {
   return (
-    <li className="gallery-item">
-      <img src="" alt="" />
+    <li
+      className={css.gallery_item}
+      onClick={() => {
+        onModal(id);
+      }}
+    >
+      <img src={webformatURL} alt={tags} />
     </li>
   );
 };

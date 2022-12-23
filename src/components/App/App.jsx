@@ -5,15 +5,7 @@ import css from './App.module.css';
 
 class App extends Component {
   state = {
-    showModal: false,
     searchParam: null,
-  };
-  toggleModal = () => {
-    this.setState(prevState => {
-      return {
-        showModal: !prevState.showModal,
-      };
-    });
   };
   handleSubmit = search => {
     this.setState({ searchParam: search });
