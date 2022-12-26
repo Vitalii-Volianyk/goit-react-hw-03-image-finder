@@ -3,6 +3,7 @@ import { Component } from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
 import Modal from 'components/Modal';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import css from './ImageGallery.module.css';
 
 const status = {
@@ -93,7 +94,7 @@ class ImageGallery extends Component {
       return <p>Search image...</p>;
     }
     if (curStatus === status.PENDING) {
-      return <p>Loading</p>;
+      return <Loader />;
     }
     if (curStatus === status.RESOLVE) {
       const classes =
