@@ -4,6 +4,8 @@ import ImageGalleryItem from './ImageGalleryItem';
 import Modal from 'components/Modal';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import EmptyView from 'components/EmptyView';
+import ErrorView from 'components/ErrorView';
 import css from './ImageGallery.module.css';
 
 const status = {
@@ -86,6 +88,12 @@ class ImageGallery extends Component {
       return { currentPage: prevState.currentPage + 1 };
     });
   };
+  reloadRequest = () => {
+    const { searchParam } = this.props;
+    const { currentPage } = this.state;
+
+    this.getImages(searchParam, currentPage, true);
+  };
   render() {
     const {
       curStatus,
@@ -97,7 +105,7 @@ class ImageGallery extends Component {
       totalHits,
     } = this.state;
     if (curStatus === status.IDLE) {
-      return <p>Search image...</p>;
+      return <EmptyView />;
     }
     if (curStatus === status.PENDING) {
       return <Loader />;
@@ -129,7 +137,7 @@ class ImageGallery extends Component {
       );
     }
     if (curStatus === status.REJECT) {
-      return <p>{errorMessage}</p>;
+      return <ErrorView message={errorMessage} tryAgain={this.reloadRequest} />;
     }
   }
 }
