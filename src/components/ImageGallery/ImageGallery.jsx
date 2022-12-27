@@ -12,6 +12,8 @@ const status = {
   RESOLVE: 'resolve',
   REJECT: 'reject',
 };
+const controller = new AbortController();
+const signal = controller.signal;
 class ImageGallery extends Component {
   state = {
     imageList: null,
@@ -29,48 +31,52 @@ class ImageGallery extends Component {
       };
     });
   };
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchParam !== this.props.searchParam) {
-      this.setState({ curStatus: status.PENDING, currentPage: 1 });
-      fetchImage(this.props.searchParam)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return new Error('Image not found.Try again');
-        })
-        .then(response => {
-          this.setState({ curStatus: status.RESOLVE });
-          this.setState({
-            imageList: response.hits,
-            totalHits: response.totalHits,
-          });
-        })
-        .catch(error => {
-          this.setState({ curStatus: status.REJECT });
-        });
+  componentDidUpdate(
+    { searchParam: prevSearchParam },
+    { currentPage: prevCurrentPage }
+  ) {
+    const { searchParam } = this.props;
+    const { currentPage } = this.state;
+
+    if (prevSearchParam !== searchParam) {
+      this.getImages(searchParam, currentPage, true);
     }
-    if (prevState.currentPage < this.state.currentPage) {
-      //this.setState({ curStatus: status.PENDING });
-      fetchImage(this.props.searchParam, this.state.currentPage)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return new Error('Image not found.Try again');
-        })
-        .then(response => {
-          this.setState({ curStatus: status.RESOLVE });
-          this.setState(({ imageList, totalHits }) => {
+    if (prevCurrentPage < currentPage) {
+      this.getImages(searchParam, currentPage);
+    }
+  }
+  componentWillUnmount() {
+    controller.abort();
+  }
+  getImages(search, page, statusShow = false) {
+    if (statusShow) {
+      this.setState({ curStatus: status.PENDING, currentPage: 1 });
+    }
+    fetchImage(search, page, signal)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        return new Error('Image not found.Try again');
+      })
+      .then(response => {
+        this.setState(({ imageList }) => {
+          if (page > 1) {
             return {
               imageList: [...imageList, ...response.hits],
+              curStatus: status.RESOLVE,
             };
-          });
-        })
-        .catch(error => {
-          this.setState({ curStatus: status.REJECT });
+          }
+          return {
+            imageList: response.hits,
+            curStatus: status.RESOLVE,
+            totalHits: response.totalHits,
+          };
         });
-    }
+      })
+      .catch(error => {
+        this.setState({ curStatus: status.REJECT, errorMessage: error });
+      });
   }
   showModal = id => {
     this.setState({ showModal: true, id });

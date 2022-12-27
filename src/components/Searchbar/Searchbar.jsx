@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import css from './SearchBar.module.css';
 
-class Searchbar extends Component {
+class SearchBar extends Component {
   state = {
     search: '',
   };
@@ -17,7 +17,7 @@ class Searchbar extends Component {
   };
   render() {
     return (
-      <header className={css.Searchbar}>
+      <header className={css.SearchBar}>
         <form className={css.SearchForm} onSubmit={this.handleSubmit}>
           <button type="submit" className={css.button}>
             <span className={css.Button_label}>Search</span>
@@ -38,4 +38,4 @@ class Searchbar extends Component {
   }
 }
 
-export default Searchbar;
+export default SearchBar;
