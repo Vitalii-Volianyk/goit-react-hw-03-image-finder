@@ -113,11 +113,11 @@ class ImageGallery extends Component {
     }
     if (curStatus === status.RESOLVE) {
       const classes = showModal
-        ? css.gallery + ' ' + css.no_scroll
-        : css.gallery;
+        ? css.container + ' ' + css.no_scroll
+        : css.container;
       return (
-        <>
-          <ul className={classes}>
+        <div className={classes}>
+          <ul className={css.gallery}>
             {imageList.map((el, index) => (
               <ImageGalleryItem
                 key={el.id}
@@ -126,16 +126,14 @@ class ImageGallery extends Component {
                 item={el}
               />
             ))}
-            {totalHits > currentPage * 12 && (
-              <li>
-                <Button onLoadMore={this.handleLoadMore} />
-              </li>
-            )}
           </ul>
+          {totalHits > currentPage * 12 && (
+            <Button onLoadMore={this.handleLoadMore} />
+          )}
           {showModal && (
             <Modal item={imageList[id]} onClose={this.toggleModal} />
           )}
-        </>
+        </div>
       );
     }
     if (curStatus === status.REJECT) {
