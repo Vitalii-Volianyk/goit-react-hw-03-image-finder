@@ -1,4 +1,5 @@
 import css from './ImageGalleryItem.module.css';
+import { PropTypes } from 'prop-types';
 
 const ImageGalleryItem = ({ item: { tags, webformatURL }, id, onModal }) => {
   return (
@@ -12,5 +13,9 @@ const ImageGalleryItem = ({ item: { tags, webformatURL }, id, onModal }) => {
     </li>
   );
 };
-
+ImageGalleryItem.propTypes = {
+  item: PropTypes.object,
+  id: PropTypes.number,
+  onModal: PropTypes.func,
+};
 export default ImageGalleryItem;

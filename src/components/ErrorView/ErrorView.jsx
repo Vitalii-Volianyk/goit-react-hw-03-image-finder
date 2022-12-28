@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import css from './ErrorView.module.css';
 
 const ErrorView = ({ message, tryAgain }) => {
@@ -13,5 +14,8 @@ const ErrorView = ({ message, tryAgain }) => {
     </div>
   );
 };
-
+ErrorView.propTypes = {
+  message: PropTypes.string,
+  tryAgain: PropTypes.func,
+};
 export default ErrorView;

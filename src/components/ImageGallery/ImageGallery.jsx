@@ -1,5 +1,6 @@
 import { fetchImage } from 'services/api';
 import { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import ImageGalleryItem from './ImageGalleryItem';
 import Modal from 'components/Modal';
 import Button from 'components/Button';
@@ -141,4 +142,7 @@ class ImageGallery extends Component {
     }
   }
 }
+ImageGallery.propTypes = {
+  searchParam: PropTypes.string,
+};
 export default ImageGallery;
