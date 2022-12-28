@@ -112,8 +112,9 @@ class ImageGallery extends Component {
       return <Loader />;
     }
     if (curStatus === status.RESOLVE) {
-      const classes =
-        `${css.gallery}` + `${showModal ? ' ' + css.no_scroll : ''}`;
+      const classes = showModal
+        ? css.gallery + ' ' + css.no_scroll
+        : css.gallery;
       return (
         <>
           <ul className={classes}>
