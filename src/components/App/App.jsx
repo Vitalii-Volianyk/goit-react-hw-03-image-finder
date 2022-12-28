@@ -14,8 +14,8 @@ class App extends Component {
     const { searchParam } = this.state;
     return (
       <div className={css.App}>
-        <ImageGallery searchParam={searchParam} />
         <SearchBar onSubmit={this.handleSubmit} />
+        <ImageGallery searchParam={searchParam} />
       </div>
     );
   }
